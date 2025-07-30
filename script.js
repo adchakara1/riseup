@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define your hero images with their titles and descriptions
     // IMPORTANT: Double-check these paths and filenames against your 'images' folder!
     const heroData = [
-        { src: 'images/hero1.jpg', title: 'Empowering Women Through Education', description: 'Achieve your career goals, secure your future, and gain accredited qualifications – all on your schedule, designed for busy women.' },
-        { src: 'images/hero2.jpg', title: 'Flexible Learning, Real Results', description: 'Study at your own pace with our custom Android app, designed for offline access and cost savings.' },
-        { src: 'images/hero3.jpg', title: 'Personalized Support, Every Step of the Way', description: 'Receive direct, expert feedback on your assignments via WhatsApp, ensuring you excel.' },
-        { src: 'images/hero4.jpg', title: 'Your Path to a Brighter Future', description: 'Gain the O-Level qualifications needed for nursing, teaching, civil service, or tertiary education.' }
+        { src: 'hero1.jpg', title: 'Empowering Women Through Education', description: 'Achieve your career goals, secure your future, and gain accredited qualifications – all on your schedule, designed for busy women.' }
+        { src: 'hero2.jpg', title: 'Flexible Learning, Real Results', description: 'Study at your own pace with our custom Android app, designed for offline access and cost savings.' },
+        { src: 'hero3.jpg', title: 'Personalized Support, Every Step of the Way', description: 'Receive direct, expert feedback on your assignments via WhatsApp, ensuring you excel.' },
+        { src: 'hero4.jpg', title: 'Your Path to a Brighter Future', description: 'Gain the O-Level qualifications needed for nursing, teaching, civil service, or tertiary education.' }
         // Add more images as desired, ensuring they are in your 'images' folder
     ];
 
