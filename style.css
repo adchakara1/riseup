@@ -1,0 +1,652 @@
+/*
+ * style.css
+ *
+ * This stylesheet provides the visual styling for the RiseUp Learn website,
+ * incorporating corporate colors (Light Green and Pastel Yellow),
+ * responsive design, and foundational styles for interactive elements.
+ */
+
+/* ===================================== */
+/* 1. Basic CSS Reset & Global Styles    */
+/* ===================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Define CSS Variables for Corporate Colors & Common Values */
+:root {
+    --primary-color: #8BC34A; /* A vibrant light green (Nokia-esque, but yours!) */
+    --primary-color-hover: #7CB342; /* Slightly darker green for hover */
+    --secondary-color: #FFFACD; /* Pastel Yellow */
+    --text-color: #333;
+    --heading-color: #2c3e50; /* Dark blue/grey for strong contrast */
+    --light-bg: #f4f4f4;
+    --white-bg: #fff;
+
+    --font-family-primary: 'Roboto', sans-serif;
+
+    --header-height: 70px; /* Consistent height for header */
+}
+
+body {
+    font-family: var(--font-family-primary);
+    line-height: 1.6;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+section {
+    padding: 80px 20px;
+    text-align: center;
+    position: relative; /* Useful for any inner positioning */
+}
+
+h1, h2, h3, h4 {
+    margin-bottom: 20px;
+    color: var(--heading-color);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h1 { font-size: 3.5em; }
+h2 { font-size: 2.5em; }
+h3 { font-size: 1.8em; }
+h4 { font-size: 1.4em; }
+
+p {
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+/* General Button Styling */
+.btn {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    text-transform: uppercase; /* Add a touch of professionalism */
+    letter-spacing: 0.5px;
+}
+
+.btn:hover {
+    background: var(--primary-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Subtle shadow on hover */
+}
+
+.btn.secondary-btn {
+    background: #6c757d; /* Standard grey for secondary actions */
+}
+
+.btn.secondary-btn:hover {
+    background: #5a6268;
+}
+
+/* ===================================== */
+/* 2. Header Section Styles              */
+/* ===================================== */
+.main-header {
+    background: var(--white-bg);
+    color: var(--text-color);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: var(--header-height); /* Set a fixed height */
+}
+
+.main-header .logo a {
+    color: var(--primary-color);
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0; /* Ensure no default margin from ul */
+}
+
+.main-nav ul li {
+    margin-left: 30px;
+}
+
+.main-nav ul li a {
+    color: var(--heading-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 5px 0; /* Add padding for larger clickable area */
+}
+
+.main-nav ul li a:hover,
+.main-nav ul li a.active-link { /* 'active-link' can be added by JS for current section */
+    color: var(--primary-color);
+}
+
+/* ===================================== */
+/* 3. Hero Section Styles (Dynamic Backgrounds) */
+/* ===================================== */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+    margin-top: var(--header-height); /* Offset for fixed header */
+    background-color: var(--heading-color); /* Dark fallback if images don't load */
+}
+
+.hero-background-slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* No `background-image` here; JS dynamically adds `<img>` elements */
+    z-index: -1; /* Place behind content */
+}
+
+/* CRITICAL: Styles for the dynamically added <img> elements */
+.hero-background-slideshow img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures images cover the area without distortion */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1.5s ease-in-out; /* Smooth fade transition */
+    will-change: opacity; /* Performance optimization hint */
+}
+
+/* Add to your CSS */
+.hero-background-slideshow.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+.hero-background-slideshow img.active {
+    opacity: 1; /* Make active image visible */
+}
+/* END CRITICAL IMAGE STYLES */
+
+.hero-content {
+    text-align: center;
+    z-index: 1; /* Ensure content is above background */
+    max-width: 900px;
+    padding: 30px;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent overlay for readability */
+    border-radius: 15px;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Smooth content fade/slide */
+    transform: translateY(0); /* Initial state for animation */
+    opacity: 1; /* Initial state for animation */
+}
+
+.hero-content .hero-title {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4); /* Add shadow for readability over images */
+}
+
+.hero-content .hero-description {
+    font-size: 1.4em;
+    margin-bottom: 40px;
+    font-weight: 300;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.hero-content .call-to-action-btn {
+    font-size: 1.2em;
+    padding: 15px 30px;
+    border-radius: 50px; /* Pill-shaped button */
+}
+
+.hero-controls {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    transition: opacity 0.5s ease-out; /* For fading the controls themselves */
+}
+
+.progress-bar-container {
+    width: 250px;
+    height: 6px;
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-color);
+    border-radius: 6px;
+    /* Transition for width is handled by requestAnimationFrame in JS */
+    transition: none; /* Explicitly ensure no CSS transition here */
+}
+
+.current-image-title {
+    font-size: 1.2em;
+    font-weight: 500;
+    transition: opacity 0.5s ease-out; /* For fading the title text */
+}
+
+/* ===================================== */
+/* 4. Courses Section Styles             */
+/* ===================================== */
+.courses-section {
+    background-color: var(--white-bg);
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.02); /* Subtle inner shadow */
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px; /* Add some padding in case cards touch edges */
+}
+
+.course-card {
+    background-color: var(--light-bg);
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    overflow: hidden; /* Hide anything that might spill */
+}
+
+.course-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.course-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.6em;
+}
+
+.course-card p {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+/* ===================================== */
+/* 5. Our Unique Learning Approach (Flipping Cards) */
+/* ===================================== */
+.how-it-works-section {
+    background-color: var(--secondary-color);
+    padding-bottom: 100px;
+}
+
+.network-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+    perspective: 1200px; /* Define perspective for 3D transform */
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px;
+}
+
+.network-card-wrapper {
+    width: 320px;
+    height: 280px;
+    position: relative;
+    cursor: pointer;
+    /* Optional: Add a slight hover effect to the wrapper before flip */
+    transition: transform 0.2s ease-out;
+}
+
+.network-card-wrapper:hover {
+    transform: translateY(-5px);
+}
+
+
+.network-card {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d; /* Key for 3D flip */
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Smooth, bouncy transition */
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    overflow: hidden; /* Important for hiding content during flip if needed */
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the back of the element when facing the user */
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    text-align: center;
+    background-color: var(--white-bg);
+}
+
+.card-front {
+    background-color: var(--white-bg);
+    color: var(--text-color);
+}
+
+.card-front h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.card-front p {
+    font-size: 1.05em;
+    margin-bottom: 20px;
+}
+
+.card-front .learn-more-btn {
+    margin-top: auto; /* Push button to bottom if content varies */
+    font-size: 0.9em;
+    padding: 8px 18px;
+    border-radius: 20px;
+}
+
+.card-back {
+    background-color: var(--primary-color);
+    color: #fff;
+    transform: rotateY(180deg); /* Initially flipped away */
+    display: flex; /* Ensure flex properties apply to back */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-back h4 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.card-back p {
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+/* State for flipped card */
+.network-card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* ===================================== */
+/* 6. About Us & Contact Section Styles  */
+/* ===================================== */
+.about-section,
+.contact-section {
+    background-color: var(--white-bg);
+}
+
+.about-section p {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.1em;
+}
+
+.contact-form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 10px; /* Add padding for small screens */
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1em;
+    width: 100%; /* Ensure full width */
+}
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* ===================================== */
+/* 7. Footer Section Styles              */
+/* ===================================== */
+.main-footer {
+    background: var(--heading-color);
+    color: #ecf0f1;
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between wrapped items */
+}
+
+.social-links a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+}
+
+/* ===================================== */
+/* 8. Responsive Adjustments             */
+/* ===================================== */
+@media (max-width: 1200px) {
+    .course-grid,
+    .network-cards-container,
+    .footer-content {
+        max-width: 960px; /* Constrain width on slightly smaller screens */
+    }
+}
+
+@media (max-width: 992px) {
+    h1 { font-size: 2.8em; }
+    h2 { font-size: 2.2em; }
+    .hero-content { padding: 25px; }
+    .hero-content .hero-description { font-size: 1.2em; }
+
+    .main-header {
+        padding: 15px 20px;
+    }
+    .main-nav ul li {
+        margin-left: 20px;
+    }
+
+    .course-card,
+    .network-card-wrapper {
+        width: 45%; /* Two columns on larger tablets */
+        height: auto;
+        min-height: 250px;
+    }
+    .network-card-wrapper {
+        margin: 0 auto; /* Center individual cards if not enough for 2 columns */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px 15px;
+        height: auto; /* Allow header height to adjust */
+    }
+
+    .main-nav ul {
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px; /* Smaller gap for nav items */
+    }
+
+    .main-nav ul li {
+        margin-left: 0; /* Reset margin */
+    }
+
+    .cta-buttons {
+        margin-top: 15px;
+    }
+
+    .hero-section {
+        margin-top: 0; /* Adjust for potentially taller mobile header */
+        padding-top: var(--header-height); /* Push content down if header collapses */
+        height: 85vh; /* Make hero section a bit shorter on mobile */
+    }
+    .hero-content .hero-title {
+        font-size: 2em;
+    }
+    .hero-content .hero-description {
+        font-size: 1em;
+    }
+    .hero-content {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    section {
+        padding: 50px 15px;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr; /* Single column on small screens */
+        padding: 0;
+    }
+    .course-card {
+        width: 100%; /* Full width */
+        max-width: 350px; /* Constrain for readability */
+        margin: 0 auto; /* Center the card */
+    }
+
+    .network-cards-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding: 0;
+    }
+    .network-card-wrapper {
+        width: 100%; /* Full width */
+        max-width: 350px; /* Constrain for readability */
+        height: 250px; /* Adjust height for consistent look */
+    }
+
+    .card-front, .card-back {
+        padding: 20px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .social-links {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 15px; /* Space between social links */
+    }
+    .social-links a {
+        margin-left: 0; /* Reset margin */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.4em; }
+
+    .main-header .logo a {
+        font-size: 24px;
+    }
+
+    .main-nav ul {
+        flex-direction: column; /* Stack nav items on very small screens */
+    }
+
+    .hero-content .hero-title {
+        font-size: 1.8em;
+    }
+    .hero-content .hero-description {
+        font-size: 0.9em;
+    }
+    .hero-content .call-to-action-btn {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+
+    .hero-controls {
+        flex-direction: column;
+        bottom: 20px;
+        gap: 10px;
+    }
+    .progress-bar-container {
+        width: 180px;
+    }
+    .current-image-title {
+        font-size: 1em;
+    }
+}
